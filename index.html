@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ley 1712 de 2014 - Presentación</title>
+  <style>
+:root {
+  --bg-1: #070b18;
+  --bg-2: #101a38;
+  --accent: #5a9bff;
+  --accent-2: #3ff0c8;
+  --text: #f2f6ff;
+  --muted: #aebadd;
+  --muted-2: #8b98bd;
+  --card: rgba(255, 255, 255, 0.055);
+  --card-hover: rgba(255, 255, 255, 0.09);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --radius: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+/* Aviso si el navegador no ejecuta JS (se oculta cuando todo funciona) */
+.js-warning {
+  display: block; position: fixed; top: 10px; left: 10px; right: 10px;
+  z-index: 100; background: #3a0f14; color: #ffd6d6;
+  border: 1px solid #ff6b6b; padding: 14px 18px; border-radius: 12px;
+  font-size: 1rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+body[data-js="ok"] .js-warning { display: none; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: "Roboto", "Segoe UI", system-ui, sans-serif;
+  font-size: 18px;
+  background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Fondo animado */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(900px 550px at 85% -10%, rgba(61, 110, 255, .35), transparent 60%),
+    radial-gradient(700px 500px at -10% 115%, rgba(20, 200, 165, .22), transparent 60%),
+    radial-gradient(500px 380px at 55% 110%, rgba(140, 90, 255, .16), transparent 60%);
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  background-image: radial-gradient(rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 90%);
+  pointer-events: none;
+}
+
+/* Barra de progreso */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 6px;
+  background: rgba(255,255,255,0.07); z-index: 50;
+}
+.progress {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px rgba(90, 155, 255, .6);
+  transition: width .45s ease;
+}
+
+/* Diapositivas */
+.presentation { position: relative; height: 100vh; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 70px 8vw 95px;
+  opacity: 0; visibility: hidden;
+  transform: translateX(70px);
+  transition: opacity .55s ease, transform .55s ease, visibility .55s;
+}
+.slide.active { opacity: 1; visibility: visible; transform: translateX(0); }
+.slide.prev { transform: translateX(-70px); }
+
+.slide-content { width: 100%; max-width: 1200px; }
+
+/* Tipografía */
+h1, h2, h3, h4 { font-weight: 700; line-height: 1.25; }
+
+h2 {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  margin: 8px 0 28px;
+  letter-spacing: -.5px;
+  color: #ffffff;
+}
+h3 { font-size: 1.35rem; margin-bottom: 10px; color: #f0f5ff; }
+h4 { font-size: 1.15rem; margin-bottom: 8px; }
+
+.title-xl {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: #ffffff;
+}
+.subtitle {
+  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+  color: var(--muted); margin-top: 16px; line-height: 1.5; font-weight: 400;
+}
+.section-tag {
+  display: inline-block; font-size: 1rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--accent-2); border: 1px solid rgba(63,240,200,.45);
+  padding: 8px 18px; border-radius: 999px; background: rgba(63,240,200,.08);
+}
+.badge {
+  display: inline-block; font-size: 1.05rem; font-weight: 600;
+  color: var(--accent); background: rgba(90,155,255,.12);
+  border: 1px solid rgba(90,155,255,.45);
+  padding: 9px 20px; border-radius: 999px; margin-bottom: 26px;
+}
+.lead { color: var(--muted); font-size: 1.35rem; line-height: 1.6; margin-bottom: 22px; }
+.small { font-size: 1.05rem; color: var(--muted); margin-top: 12px; line-height: 1.65; }
+
+/* Portada */
+.cover { text-align: center; }
+.cover-meta {
+  margin-top: 40px; color: var(--muted); font-size: 1.35rem; line-height: 2;
+}
+.cover-meta strong { color: var(--text); }
+.hint {
+  margin-top: 44px; font-size: 1.05rem; color: var(--muted-2);
+  animation: pulse 2.2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+
+/* Grids */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.align-top { align-items: start; }
+
+/* Tarjetas */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 26px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  background: var(--card-hover);
+  border-color: rgba(90,155,255,.55);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35), 0 0 24px rgba(90,155,255,.18);
+}
+.card p { color: var(--muted); font-size: 1.12rem; line-height: 1.65; }
+.card strong { color: var(--text); }
+.card.highlight {
+  background: linear-gradient(140deg, rgba(90,155,255,.20), rgba(63,240,200,.10));
+  border-color: rgba(90,155,255,.4);
+}
+.card.principle-main {
+  background: linear-gradient(90deg, rgba(90,155,255,.18), rgba(90,155,255,.05));
+  border-left: 4px solid var(--accent);
+  margin-top: 22px;
+}
+.card.principle-main p { color: var(--text); font-size: 1.2rem; }
+.card.numbered { position: relative; padding-left: 70px; }
+.card.numbered .num {
+  position: absolute; left: 20px; top: 22px;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #08101f; font-weight: 900; font-size: 1.1rem;
+}
+
+/* Listas */
+.list-strong { list-style: none; display: flex; flex-direction: column; gap: 15px; margin-top: 8px; }
+.list-strong li {
+  position: relative; padding-left: 26px;
+  color: var(--muted); line-height: 1.65; font-size: 1.15rem;
+}
+.list-strong li::before {
+  content: ""; position: absolute; left: 0; top: 11px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 10px rgba(63,240,200,.5);
+}
+.list-strong strong { color: var(--text); }
+
+.normas { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.normas li {
+  background: rgba(255,255,255,.045);
+  border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 14px 18px;
+  color: var(--muted); font-size: 1.12rem; line-height: 1.6;
+  border-left: 4px solid var(--accent);
+}
+.normas strong { color: var(--text); }
+
+/* Referencias */
+.references { list-style: none; display: flex; flex-direction: column; gap: 15px; margin-bottom: 28px; }
+.references li {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 16px 20px;
+  color: var(--muted); font-size: 1.08rem; line-height: 1.6;
+  border-left: 3px solid var(--accent);
+}
+.references em { color: var(--text); }
+.card.thanks { text-align: center; background: linear-gradient(90deg, rgba(90,155,255,.18), rgba(63,240,200,.12)); }
+.card.thanks h3 { font-size: 1.9rem; }
+.card.thanks p { color: var(--text); }
+
+/* Cita */
+.quote {
+  border-left: 4px solid var(--accent-2);
+  background: rgba(63,240,200,.08);
+  padding: 22px 26px; border-radius: 0 14px 14px 0;
+  font-size: 1.3rem; font-style: italic; color: var(--text);
+  margin-bottom: 26px; line-height: 1.6;
+}
+
+/* Controles */
+.controls {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(8, 12, 28, .85);
+  border: 1px solid rgba(255,255,255,.16);
+  padding: 10px 16px; border-radius: 999px;
+  backdrop-filter: blur(12px); z-index: 40;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+.btn-nav, .btn-fullscreen, .btn-tool {
+  height: 42px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.08);
+  color: var(--text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+.btn-nav { width: 44px; font-size: 1.6rem; }
+.btn-fullscreen, .btn-tool {
+  padding: 0 16px; font-size: .9rem; font-weight: 700; letter-spacing: .5px; white-space: nowrap;
+}
+.btn-nav:hover, .btn-fullscreen:hover, .btn-tool:hover {
+  background: var(--accent); transform: scale(1.06);
+  box-shadow: 0 0 18px rgba(90,155,255,.55);
+}
+.btn-nav:disabled { opacity: .3; cursor: not-allowed; transform: none; background: rgba(255,255,255,.08); box-shadow: none; }
+
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 11px; height: 11px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,.25); transition: all .25s;
+}
+.dot:hover { background: rgba(255,255,255,.5); }
+.dot.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  transform: scale(1.5);
+  box-shadow: 0 0 12px rgba(63,240,200,.6);
+}
+
+.counter { font-size: 1.05rem; color: var(--muted); min-width: 55px; text-align: center; font-weight: 500; }
+
+/* Medallaje institucional */
+.sena-brand {
+  display: inline-flex; align-items: center; gap: 13px;
+  margin-bottom: 30px; padding: 10px 20px; border-radius: 999px;
+  background: rgba(242, 114, 40, .12); border: 1px solid rgba(242, 114, 40, .5);
+}
+.sena-logo {
+  background: linear-gradient(135deg, #ffb521, #f27228);
+  color: #201006; font-weight: 900; font-size: 1.05rem; letter-spacing: 1px;
+  padding: 7px 15px; border-radius: 8px;
+}
+.sena-name { color: #ffd9a0; font-size: 1rem; font-weight: 600; }
+
+/* Notas del orador (ocultas en la vista normal) */
+.speaker-notes { display: none; }
+
+/* El guion solo está disponible en pantallas pequeñas (celular/tablet) */
+.notes-panel, #notesBtn, #helpNotesRow { display: none; }
+@media (max-width: 768px), (max-height: 500px) {
+  .notes-panel { display: block; }
+  #notesBtn { display: flex; }
+  #helpNotesRow { display: table-row; }
+}
+
+/* Panel del orador */
+.notes-panel {
+  position: fixed; right: 18px; bottom: 84px;
+  width: 440px; max-width: calc(100vw - 36px); max-height: 55vh;
+  overflow-y: auto;
+  background: rgba(8, 12, 28, .94);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 16px; backdrop-filter: blur(12px);
+  box-shadow: 0 16px 50px rgba(0,0,0,.55);
+  z-index: 60;
+  animation: rise .35s ease backwards;
+}
+.notes-head {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: space-between; padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  position: sticky; top: 0; background: rgba(8, 12, 28, .95);
+}
+.notes-title { font-weight: 700; color: #fff; font-size: 1.05rem; }
+.notes-clock { color: var(--accent-2); font-weight: 700; }
+.notes-body { padding: 14px 16px; color: var(--muted); line-height: 1.65; font-size: 1.05rem; }
+.notes-body p { margin-bottom: 10px; }
+.notes-close {
+  border: none; background: rgba(255,255,255,.12); color: #fff;
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  font-size: 1.15rem; line-height: 1; transition: background .2s;
+}
+.notes-close:hover { background: var(--accent); }
+
+/* Overlays (vista general y ayuda) */
+.overlay {
+  position: fixed; inset: 0; z-index: 70;
+  background: rgba(6, 9, 20, .95);
+  backdrop-filter: blur(6px);
+  padding: 70px 6vw 40px; overflow-y: auto;
+  animation: fade .3s ease;
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ov-head {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto 26px;
+}
+.ov-head h3 { font-size: 1.7rem; color: #fff; }
+
+.ov-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  max-width: 1200px; margin: 0 auto;
+}
+.ov-item {
+  cursor: pointer; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--card-border); background: rgba(255,255,255,.05);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+  text-align: left; padding: 0;
+}
+.ov-item:hover { transform: scale(1.02); border-color: var(--accent); box-shadow: 0 0 22px rgba(90,155,255,.3); }
+.ov-item.active { border-color: var(--accent-2); box-shadow: 0 0 0 2px var(--accent-2); }
+.ov-preview {
+  width: 100%; height: 160px; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  pointer-events: none;
+}
+.ov-preview .clone { position: absolute; top: 2px; left: 2px; transform-origin: top left; }
+.ov-cap {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; color: var(--muted); font-size: .95rem; font-weight: 600;
+  border-top: 1px solid var(--card-border); gap: 8px;
+}
+.ov-cap b { color: #fff; white-space: nowrap; }
+
+/* Ayuda de atajos */
+.help { display: grid; place-items: start center; }
+.help-box {
+  width: min(720px, 94vw);
+  background: rgba(10, 14, 32, .96);
+  border: 1px solid var(--card-border); border-radius: 18px;
+  padding: 24px 28px; box-shadow: 0 22px 60px rgba(0,0,0,.55);
+}
+.help-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.help-table td {
+  padding: 11px 8px; border-bottom: 1px solid rgba(255,255,255,.08);
+  color: var(--muted); font-size: 1.05rem; vertical-align: middle;
+}
+.help-table td:first-child { color: #fff; white-space: nowrap; }
+kbd {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28);
+  border-radius: 6px; padding: 2px 9px; font-family: inherit; font-size: .95rem;
+  box-shadow: 0 2px 0 rgba(255,255,255,.1);
+}
+
+/* Animación escalonada al cambiar de diapositiva */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide.active .slide-content > *,
+.slide.active .list-strong li,
+.slide.active .normas li,
+.slide.active .card {
+  animation: rise .5s ease backwards;
+}
+.slide.active .slide-content > *:nth-child(2) { animation-delay: .06s; }
+.slide.active .slide-content > *:nth-child(3) { animation-delay: .12s; }
+.slide.active .slide-content > *:nth-child(4) { animation-delay: .18s; }
+.slide.active .card:nth-child(2) { animation-delay: .12s; }
+.slide.active .card:nth-child(3) { animation-delay: .18s; }
+.slide.active .card:nth-child(4) { animation-delay: .24s; }
+.slide.active .card:nth-child(5) { animation-delay: .3s; }
+.slide.active .card:nth-child(6) { animation-delay: .36s; }
+.slide.active .list-strong li:nth-child(2) { animation-delay: .08s; }
+.slide.active .list-strong li:nth-child(3) { animation-delay: .16s; }
+.slide.active .list-strong li:nth-child(4) { animation-delay: .24s; }
+.slide.active .list-strong li:nth-child(5) { animation-delay: .32s; }
+.slide.active .normas li:nth-child(2) { animation-delay: .07s; }
+.slide.active .normas li:nth-child(3) { animation-delay: .14s; }
+.slide.active .normas li:nth-child(4) { animation-delay: .21s; }
+.slide.active .normas li:nth-child(5) { animation-delay: .28s; }
+.slide.active .normas li:nth-child(6) { animation-delay: .35s; }
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .ov-grid { grid-template-columns: repeat(2, 1fr); }
+  .slide { padding: 60px 6vw 100px; }
+}
+@media (max-width: 620px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .ov-grid { grid-template-columns: 1fr; }
+  .slide { overflow-y: auto; align-items: flex-start; padding-top: 55px; }
+  .dots { display: none; }
+  .controls { gap: 8px; padding: 8px 12px; flex-wrap: wrap; max-width: 96vw; justify-content: center; }
+  .btn-fullscreen, .btn-tool { padding: 0 10px; }
+}
+  </style>
+</head>
+<body>
+
+  <div class="js-warning" id="jsWarning">Esta presentacion necesita un navegador para funcionar. Abre el archivo con Chrome o el navegador del celular (doble clic sobre el archivo descargado), no desde el visor de WhatsApp o correo.</div>
+
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+
+  <main class="presentation" id="presentation">
+
+    <!-- 1. Portada -->
+    <section class="slide active">
+      <div class="slide-content cover">
+        <div class="sena-brand">
+          <span class="sena-logo">SENA</span>
+          <span class="sena-name">Servicio Nacional de Aprendizaje</span>
+        </div>
+        <span class="badge">Ley Estatutaria - Colombia</span>
+        <h1 class="title-xl">Ley 1712 de 2014</h1>
+        <p class="subtitle">Ley de Transparencia y del Derecho de Acceso a la Información Pública Nacional</p>
+        <div class="cover-meta">
+          <p><strong>Presentado por:</strong> Juan Sebastián Morales M - Aprendiz SENA</p>
+          <p><strong>Programa:</strong> ADSO - 3390374</p>
+        </div>
+        <p class="hint" id="navHint">Flechas del teclado o botones para navegar · O: vista general · H: ayuda</p>
+      </div>
+      <aside class="speaker-notes">
+        <p>Saludo: Buen dia / buenas tardes. Me presento: Juan Sebastian Morales, aprendiz del programa ADSO, grupo 3390374.</p>
+        <p>Hoy les presentare la Ley 1712 de 2014, la ley de transparencia de Colombia, que garantiza el derecho de todos a conocer la informacion del Estado.</p>
+      </aside>
+    </section>
+
+    <!-- 2. Descripción -->
+    <section class="slide">
+      <div class="slide-content">
+        <span class="section-tag">Descripción</span>
+        <h2>¿Qué es la Ley 1712 de 2014?</h2>
+        <div class="grid-2">
+          <div>
+            <p class="lead">Es una <strong>ley estatutaria</strong> expedida el 6 de febrero de 2014 (Diario Oficial 49.087) que desarrolla el derecho fundamental de acceso a la información pública consagrado en el artículo 74 de la Constitución Política.</p>
+            <ul class="list-strong">
+              <li>Crea la <strong>Ley de Transparencia y del Derecho de Acceso a la Información Pública Nacional</strong>.</li>
+              <li>Regula los procedimientos para <strong>solicitar, recibir y publicar</strong> información.</li>
+              <li>Establece las <strong>excepciones</strong> y las reglas de <strong>reserva</strong> de la información.</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h3>¿Para qué sirve?</h3>
+            <p>Garantizar que la ciudadanía pueda <strong>conocer y acceder</strong> a la información que maneja el Estado, y promover el <strong>control social</strong>, la <strong>participación ciudadana</strong> y la lucha contra la <strong>corrupción</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="speaker-notes">
+        <p>Esta es una ley estatutaria, es decir, desarrolla derechos fundamentales. Fue expedida el 6 de febrero de 2014.</p>
+        <p>Su objetivo es hacer realidad el artículo 74 de la Constitucion: todas las personas tenemos derecho a acceder a la informacion de las entidades publicas. En otras palabras: el Estado no puede esconder sus decisiones.</p>
+      </aside>
+    </section>
+
+    <!-- 3. Aplicación de la Ley, norma, decreto o resolución -->
+    <section class="slide">
+      <div class="slide-content">
+        <span class="section-tag">Aplicación de la Ley, norma o decreto</span>
+        <h2>¿Cómo y dónde se aplica?</h2>
+        <div class="grid-2 align-top">
+          <div class="card">
+            <h3>1. Ámbito de aplicación (Art. 5)</h3>
+            <p class="small">Se aplica a toda <strong>entidad pública</strong>, órganos de control, personas que prestan <strong>servicios o función pública</strong>, partidos políticos y quienes administren <strong>recursos públicos</strong>.</p>
+            <h3>2. Deber de publicar (Arts. 9 y 10)</h3>
+            <p class="small">Obliga a publicar <strong>presupuesto, contratación, salarios, normas y planes</strong>, actualizada al menos cada mes, en formatos accesibles.</p>
+            <h3>3. Solicitud de información (Arts. 25 y 26)</h3>
+            <p class="small">Respuesta en máximo <strong>15 días hábiles</strong>, prorrogable por <strong>10</strong>, de forma <strong>oportuna, veraz, completa y motivada</strong>.</p>
+          </div>
+          <div class="card">
+            <h3>Normas que la aplican y reglamentan</h3>
+            <ul class="normas">
+              <li><strong>Ley 1712 de 2014</strong> - Ley estatutaria de transparencia.</li>
+              <li><strong>Decreto 103 de 2015</strong> - Reglamentación parcial de la ley.</li>
+              <li><strong>Decreto 1081 de 2015</strong> - Reglamentario único del sector Presidencia.</li>
+              <li><strong>Resolución MinTIC 1519 de 2020</strong> - Estándares de publicación y accesibilidad web.</li>
+              <li><strong>Resoluciones PGN 240 y 241 de 2022</strong> - Procedimiento con identificación reservada y lineamientos de la Procuraduría.</li>
+              <li><strong>Sentencia C-274 de 2013</strong> - Declaratoria de exequibilidad de la corte.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <aside class="speaker-notes">
+        <p>La ley obliga a las entidades publicas y a quienes manejan recursos publicos a publicar informacion clave: presupuesto, contratos, salarios, planes.</p>
+        <p>Si un ciudadano pide informacion, tienen maximo 15 dias habiles para responder, prorrogables por 10 mas.</p>
+        <p>Las normas que la reglamentan son el Decreto 103 de 2015, el Decreto 1081 de 2015 y la Resolucion MinTIC 1519 de 2020.</p>
+      </aside>
+    </section>
+
+    <!-- 4. Para qué caso aplica -->
+    <section class="slide">
+      <div class="slide-content">
+        <span class="section-tag">Para qué caso aplica</span>
+        <h2>¿En qué casos se aplica la ley?</h2>
+        <div class="grid-2 align-top">
+          <div class="card">
+            <h3>Casos en los que sí aplica</h3>
+            <ul class="list-strong">
+              <li>Cuando un ciudadano <strong>solicita información</strong> a una entidad pública: contratos, presupuestos, salarios u obras.</li>
+              <li>Cuando una entidad debe <strong>publicar de oficio</strong> información de interés público (transparencia activa).</li>
+              <li>Cuando se piden <strong>documentos o datos</strong> a sujetos obligados, sin necesidad de justificar el motivo.</li>
+              <li>En el ejercicio del <strong>periodismo</strong>, la investigación y el <strong>control social</strong> de la gestión pública.</li>
+              <li>Cuando se <strong>rechaza una solicitud</strong>: la negativa debe ser motivada y demostrar la excepción.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Excepciones: cuándo no se entrega</h3>
+            <ul class="list-strong">
+              <li>Información que pueda causar daño a <strong>derechos de las personas</strong>: intimidad, datos personales, salud o secretos comerciales (Art. 18).</li>
+              <li>Información reservada por daño a <strong>intereses públicos</strong>: seguridad y defensa nacional, relaciones internacionales o estabilidad económica (Art. 19).</li>
+              <li>La reserva debe ser la <strong>excepción</strong>: el sujeto obligado debe probar el daño (Art. 28).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <aside class="speaker-notes">
+        <p>La ley aplica cuando pido informacion a una entidad, cuando quiero fiscalizar contratos u obras, o cuando un periodista investiga a un funcionario.</p>
+        <p>Solo se puede negar por excepciones demostradas: datos personales, seguridad nacional, secretos comerciales. Quien niega debe probar el dano, no basta decir que no.</p>
+      </aside>
+    </section>
+
+    <!-- 5. Caso real -->
+    <section class="slide">
+      <div class="slide-content">
+        <span class="section-tag">Caso real</span>
+        <h2>Caso real: Sentencia T-454 de 2024</h2>
+        <div class="grid-2 align-top">
+          <div class="card">
+            <h3>Hechos del caso</h3>
+            <p class="small">Un <strong>periodista</strong> solicitó a la Universidad Simón Bolívar la información académica y los títulos del rector de la Universidad Popular del Cesar, dentro de una investigación sobre las <strong>hojas de vida de altos funcionarios</strong>.</p>
+            <p class="small">La universidad <strong>negó la entrega</strong> alegando protección de datos personales (Ley 1581 de 2012).</p>
+          </div>
+          <div class="card highlight">
+            <h3>Decisión y lección</h3>
+            <p class="small">La Corte Constitucional <strong>concedió la tutela</strong> y ordenó entregar la información, aplicando los principios de <strong>máxima publicidad</strong> (Arts. 2 y 3 de la Ley 1712) y la <strong>carga de la prueba</strong> del Art. 28.</p>
+            <p class="small">La <strong>formación académica y la experiencia de los funcionarios públicos son información pública</strong>: la negativa debe probar un daño real y específico, no una incomodidad.</p>
+          </div>
+        </div>
+        <div class="card principle-main">
+          <p><strong>Reflexión:</strong> este caso muestra que la Ley 1712 de 2014 protege al ciudadano <strong>frente al secretismo</strong>: la información se presume pública y quién la oculta debe demostrar por qué.</p>
+        </div>
+      </div>
+      <aside class="speaker-notes">
+        <p>En 2024 la Corte Constitucional resolvio un caso clave: un periodista pidio a una universidad la informacion academica de un rector para verificar sus titulos.</p>
+        <p>La universidad se nego alegando datos personales, pero la Corte ordeno entregarla. La formacion y experiencia de los funcionarios publicos es informacion publica.</p>
+      </aside>
+    </section>
+
+    <!-- 6. Para la discusión -->
+    <section class="slide">
+      <div class="slide-content">
+        <span class="section-tag">Cierre y discusión</span>
+        <h2>Pregunta para la discusión</h2>
+        <blockquote class="quote">¿Dónde está el límite entre el derecho de acceso a la información y la protección de los datos personales?</blockquote>
+        <div class="grid-2 align-top">
+          <div class="card">
+            <h3>Puntos para reflexionar</h3>
+            <ul class="list-strong">
+              <li>¿Debería la ciudadanía consultar los <strong>salarios o títulos</strong> de todos los funcionarios?</li>
+              <li>¿Cómo protegería usted la información sensible <strong>sin caer en el secretismo</strong>?</li>
+              <li>¿Qué haría si una entidad le <strong>niega información</strong> que usted considera pública?</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h3>Conclusión final</h3>
+            <p>La Ley 1712 de 2014 convierte la información pública en una <strong>herramienta de democracia y control social</strong>: solo quien conoce puede exigir y participar.</p>
+            <p class="small"><strong>Agradecimientos.</strong> Juan Sebastián Morales M - ADSO 3390374</p>
+          </div>
+        </div>
+      </div>
+      <aside class="speaker-notes">
+        <p>Inviten al publico a opinar sobre la pregunta. Den espacio para una o dos respuestas.</p>
+        <p>Cierre: la transparencia fortalece la democracia; conocer los datos del Estado es el primer paso para controlarlo. Agradecer el tiempo de todos.</p>
+      </aside>
+    </section>
+
+  </main>
+
+  <!-- Controles -->
+  <footer class="controls">
+    <button class="btn-nav" id="prevBtn" aria-label="Anterior">&#8249;</button>
+    <div class="dots" id="dots"></div>
+    <button class="btn-nav" id="nextBtn" aria-label="Siguiente">&#8250;</button>
+    <span class="counter" id="counter">1 / 6</span>
+    <button class="btn-tool" id="overviewBtn">Vista</button>
+    <button class="btn-tool" id="notesBtn">Guion</button>
+    <button class="btn-fullscreen" id="fsBtn" aria-label="Pantalla completa">Pantalla completa</button>
+  </footer>
+
+  <!-- Panel del orador -->
+  <aside class="notes-panel" id="notesPanel" hidden>
+    <div class="notes-head">
+      <span class="notes-title">Guion del orador</span>
+      <span class="notes-clock" id="notesClock">00:00 · 0:00</span>
+      <button class="notes-close" id="notesClose" aria-label="Cerrar guion">×</button>
+    </div>
+    <div class="notes-body" id="notesBody"></div>
+  </aside>
+
+  <!-- Vista general -->
+  <div class="overlay overview" id="overview" hidden>
+    <div class="ov-head">
+      <h3>Vista general</h3>
+      <button class="notes-close" id="overviewClose" aria-label="Cerrar vista general">×</button>
+    </div>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+
+  <!-- Ayuda de atajos -->
+  <div class="overlay help" id="help" hidden>
+    <div class="help-box">
+      <div class="ov-head">
+        <h3>Atajos de teclado</h3>
+        <button class="notes-close" id="helpClose" aria-label="Cerrar ayuda">×</button>
+      </div>
+      <table class="help-table">
+        <tr><td><kbd>Flecha derecha</kbd> / <kbd>Espacio</kbd></td><td>Siguiente diapositiva</td></tr>
+        <tr><td><kbd>Flecha izquierda</kbd></td><td>Diapositiva anterior</td></tr>
+        <tr><td><kbd>Inicio</kbd> / <kbd>Fin</kbd></td><td>Ir al inicio o al final</td></tr>
+        <tr><td><kbd>O</kbd></td><td>Abrir vista general</td></tr>
+        <tr id="helpNotesRow"><td><kbd>N</kbd></td><td>Mostrar guion del orador (solo en celular)</td></tr>
+        <tr><td><kbd>H</kbd> / <kbd>?</kbd></td><td>Abrir esta ayuda</td></tr>
+        <tr><td><kbd>F</kbd></td><td>Pantalla completa</td></tr>
+        <tr><td><kbd>Esc</kbd> / <kbd>X</kbd></td><td>Cerrar vista general, ayuda o guion</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+const slides = Array.from(document.querySelectorAll(".slide"));
+const progress = document.getElementById("progress");
+const counter = document.getElementById("counter");
+const dotsContainer = document.getElementById("dots");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const fsBtn = document.getElementById("fsBtn");
+const overviewBtn = document.getElementById("overviewBtn");
+const notesBtn = document.getElementById("notesBtn");
+
+const overview = document.getElementById("overview");
+const overvGrid = document.getElementById("ovGrid");
+const overviewClose = document.getElementById("overviewClose");
+
+const notesPanel = document.getElementById("notesPanel");
+const notesBody = document.getElementById("notesBody");
+const notesClock = document.getElementById("notesClock");
+const notesClose = document.getElementById("notesClose");
+
+const help = document.getElementById("help");
+const helpClose = document.getElementById("helpClose");
+
+const startedAt = Date.now();
+let current = 0;
+let notesOpen = false;
+let overviewOpen = false;
+let helpOpen = false;
+
+const isMobile = () => window.matchMedia("(max-width: 768px), (max-height: 500px)").matches;
+const navHint = document.getElementById("navHint");
+
+/* Indicadores */
+slides.forEach((_, i) => {
+  const dot = document.createElement("button");
+  dot.className = "dot" + (i === 0 ? " active" : "");
+  dot.setAttribute("aria-label", "Ir a la diapositiva " + (i + 1));
+  dot.addEventListener("click", () => goTo(i));
+  dotsContainer.appendChild(dot);
+});
+const dots = Array.from(document.querySelectorAll(".dot"));
+
+function goTo(index, options = {}) {
+  if (index < 0 || index >= slides.length || index === current) return;
+  slides[current].classList.remove("active");
+  current = index;
+  slides.forEach((s, i) => {
+    s.classList.toggle("prev", i < current);
+    if (i !== current) s.classList.remove("active");
+  });
+  slides[current].classList.add("active");
+  updateUI();
+  if (!options.silent) {
+    notesPanel.hidden = true;
+    notesOpen = false;
+    notesBtn.textContent = "Guion";
+  }
+}
+
+function updateUI() {
+  const pct = ((current + 1) / slides.length) * 100;
+  progress.style.width = pct + "%";
+  counter.textContent = `${current + 1} / ${slides.length}`;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === slides.length - 1;
+  dots.forEach((d, i) => d.classList.toggle("active", i === current));
+  renderNotes();
+  if (overviewOpen) markOverviewActive();
+}
+
+/* Notas del orador + reloj */
+function renderNotes() {
+  const note = slides[current].querySelector(".speaker-notes");
+  notesBody.innerHTML = "";
+  if (!note) {
+    notesBody.textContent = "Sin guion para esta diapositiva.";
+    return;
+  }
+  note.querySelectorAll("p").forEach((p) => {
+    const copy = p.cloneNode(true);
+    notesBody.appendChild(copy);
+  });
+}
+
+function toggleNotes(force) {
+  if (!isMobile()) return;
+  notesOpen = typeof force === "boolean" ? force : !notesOpen;
+  notesPanel.hidden = !notesOpen;
+  notesBtn.textContent = notesOpen ? "Ocultar" : "Guion";
+  if (notesOpen) renderNotes();
+}
+
+function updateNavHint() {
+  if (!navHint) return;
+  navHint.textContent = isMobile()
+    ? "Desliza o usa los botones · O: vista · N: guion · H: ayuda"
+    : "Flechas del teclado o botones para navegar · O: vista · H: ayuda";
+}
+updateNavHint();
+window.addEventListener("resize", updateNavHint);
+
+function tickClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+  const em = String(Math.floor(elapsed / 60));
+  const es = String(elapsed % 60).padStart(2, "0");
+  notesClock.textContent = `${hh}:${mm} · ${em}:${es}`;
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+/* Vista general */
+function buildOverview() {
+  if (overvGrid.children.length) return;
+  slides.forEach((slide, i) => {
+    const item = document.createElement("button");
+    item.className = "ov-item";
+    item.setAttribute("aria-label", "Ir a la diapositiva " + (i + 1));
+
+    const preview = document.createElement("div");
+    preview.className = "ov-preview";
+    const clone = slide.querySelector(".slide-content").cloneNode(true);
+    clone.classList.add("clone");
+    clone.style.width = "1200px";
+    preview.appendChild(clone);
+    item.appendChild(preview);
+
+    const caption = document.createElement("div");
+    caption.className = "ov-cap";
+    const title = slide.querySelector("h1.title-xl, h2");
+    const label = document.createElement("b");
+    label.textContent = i + 1;
+    const text = document.createElement("span");
+    text.textContent = title ? title.textContent : "Diapositiva " + (i + 1);
+    caption.appendChild(label);
+    caption.appendChild(text);
+    item.appendChild(caption);
+
+    item.addEventListener("click", () => {
+      goTo(i);
+      toggleOverview(false);
+    });
+    overvGrid.appendChild(item);
+  });
+}
+
+function fitOverview() {
+  overvGrid.querySelectorAll(".ov-item").forEach((item) => {
+    const clone = item.querySelector(".clone");
+    clone.style.transform = `scale(${(item.clientWidth - 10) / 1200})`;
+  });
+}
+
+function markOverviewActive() {
+  overvGrid.querySelectorAll(".ov-item").forEach((item, i) => {
+    item.classList.toggle("active", i === current);
+  });
+}
+
+function toggleOverview(force) {
+  if (typeof force === "boolean") {
+    if (force === overviewOpen) return;
+    overviewOpen = force;
+  } else {
+    overviewOpen = !overviewOpen;
+  }
+  overview.hidden = !overviewOpen;
+  if (overviewOpen) {
+    buildOverview();
+    markOverviewActive();
+    requestAnimationFrame(fitOverview);
+  }
+}
+
+window.addEventListener("resize", () => {
+  if (overviewOpen) fitOverview();
+});
+
+/* Ayuda */
+function toggleHelp(force) {
+  helpOpen = typeof force === "boolean" ? force : !helpOpen;
+  help.hidden = !helpOpen;
+}
+
+/* Eventos */
+prevBtn.addEventListener("click", () => goTo(current - 1));
+nextBtn.addEventListener("click", () => goTo(current + 1));
+overviewBtn.addEventListener("click", () => toggleOverview());
+notesBtn.addEventListener("click", () => toggleNotes());
+fsBtn.addEventListener("click", toggleFullscreen);
+overviewClose.addEventListener("click", () => toggleOverview(false));
+notesClose.addEventListener("click", () => toggleNotes(false));
+helpClose.addEventListener("click", () => toggleHelp(false));
+
+function toggleFullscreen() {
+  var el = document.documentElement;
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  const k = e.key;
+
+  if (k === "Escape" || k === "x" || k === "X") {
+    if (overviewOpen) return toggleOverview(false);
+    if (helpOpen) return toggleHelp(false);
+    if (notesOpen) return toggleNotes(false);
+  }
+  if (helpOpen) return;
+  if (k === "o" || k === "O") return toggleOverview();
+  if (k === "n" || k === "N") return toggleNotes();
+  if (k === "h" || k === "H" || k === "?") return toggleHelp();
+  if (k === "f" || k === "F") return toggleFullscreen();
+
+  switch (k) {
+    case "ArrowRight":
+    case "PageDown":
+    case " ":
+      e.preventDefault();
+      goTo(current + 1);
+      break;
+    case "ArrowLeft":
+    case "PageUp":
+      e.preventDefault();
+      goTo(current - 1);
+      break;
+    case "Home":
+      goTo(0);
+      break;
+    case "End":
+      goTo(slides.length - 1);
+      break;
+  }
+});
+
+/* Navegación táctil */
+let touchStartX = 0;
+document.addEventListener("touchstart", (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener("touchend", (e) => {
+  if (overviewOpen || helpOpen) return;
+  const diff = e.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(diff) < 50) return;
+  goTo(diff < 0 ? current + 1 : current - 1);
+}, { passive: true });
+
+updateUI();
+document.body.setAttribute("data-js", "ok");
+  </script>
+</body>
+</html>
