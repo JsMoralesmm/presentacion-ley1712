@@ -80,7 +80,8 @@ body::after {
 .slide {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  padding: 70px 8vw 95px;
+  padding: 55px 5vw 88px;
+  overflow-y: auto;
   opacity: 0; visibility: hidden;
   transform: translateX(70px);
   transition: opacity .55s ease, transform .55s ease, visibility .55s;
@@ -88,56 +89,56 @@ body::after {
 .slide.active { opacity: 1; visibility: visible; transform: translateX(0); }
 .slide.prev { transform: translateX(-70px); }
 
-.slide-content { width: 100%; max-width: 1200px; }
+.slide-content { width: 100%; max-width: 1500px; }
 
 /* Tipografía */
 h1, h2, h3, h4 { font-weight: 700; line-height: 1.25; }
 
 h2 {
-  font-size: clamp(2.3rem, 4vw, 3.4rem);
-  margin: 8px 0 28px;
+  font-size: clamp(2.6rem, 4.5vw, 4rem);
+  margin: 8px 0 24px;
   letter-spacing: -.5px;
   color: #ffffff;
 }
-h3 { font-size: 1.35rem; margin-bottom: 10px; color: #f0f5ff; }
-h4 { font-size: 1.15rem; margin-bottom: 8px; }
+h3 { font-size: 1.7rem; margin-bottom: 8px; color: #f0f5ff; }
+h4 { font-size: 1.3rem; margin-bottom: 8px; }
 
 .title-xl {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(3.2rem, 9vw, 6.5rem);
   font-weight: 900;
   letter-spacing: -2px;
   color: #ffffff;
 }
 .subtitle {
-  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
-  color: var(--muted); margin-top: 16px; line-height: 1.5; font-weight: 400;
+  font-size: clamp(1.4rem, 2.9vw, 2rem);
+  color: var(--muted); margin-top: 12px; line-height: 1.4; font-weight: 400;
 }
 .section-tag {
-  display: inline-block; font-size: 1rem; font-weight: 700;
+  display: inline-block; font-size: 1.1rem; font-weight: 700;
   letter-spacing: 2.5px; text-transform: uppercase;
   color: var(--accent-2); border: 1px solid rgba(63,240,200,.45);
-  padding: 8px 18px; border-radius: 999px; background: rgba(63,240,200,.08);
+  padding: 9px 20px; border-radius: 999px; background: rgba(63,240,200,.08);
 }
 .badge {
-  display: inline-block; font-size: 1.05rem; font-weight: 600;
+  display: inline-block; font-size: 1.2rem; font-weight: 600;
   color: var(--accent); background: rgba(90,155,255,.12);
   border: 1px solid rgba(90,155,255,.45);
-  padding: 9px 20px; border-radius: 999px; margin-bottom: 26px;
+  padding: 11px 22px; border-radius: 999px; margin-bottom: 24px;
 }
-.lead { color: var(--muted); font-size: 1.35rem; line-height: 1.6; margin-bottom: 22px; }
-.small { font-size: 1.05rem; color: var(--muted); margin-top: 12px; line-height: 1.65; }
+.lead { color: var(--muted); font-size: 1.55rem; line-height: 1.5; margin-bottom: 20px; }
+.small { font-size: 1.15rem; color: var(--muted); margin-top: 10px; line-height: 1.5; }
 
 /* Portada */
 .cover { text-align: center; }
 .cover-meta {
-  margin-top: 40px; color: var(--muted); font-size: 1.35rem; line-height: 2;
+  margin-top: 38px; color: var(--muted); font-size: 1.55rem; line-height: 1.9;
 }
 .cover-meta strong { color: var(--text); }
 
 /* Grids */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .align-top { align-items: start; }
 
 /* Tarjetas */
@@ -145,7 +146,7 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 26px;
+  padding: 30px;
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
   transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
@@ -156,7 +157,7 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
   border-color: rgba(90,155,255,.55);
   box-shadow: 0 14px 40px rgba(0,0,0,.35), 0 0 24px rgba(90,155,255,.18);
 }
-.card p { color: var(--muted); font-size: 1.12rem; line-height: 1.65; }
+.card p { color: var(--muted); font-size: 1.22rem; line-height: 1.55; }
 .card strong { color: var(--text); }
 .card.highlight {
   background: linear-gradient(140deg, rgba(90,155,255,.20), rgba(63,240,200,.10));
@@ -167,7 +168,7 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
   border-left: 4px solid var(--accent);
   margin-top: 22px;
 }
-.card.principle-main p { color: var(--text); font-size: 1.2rem; }
+.card.principle-main p { color: var(--text); font-size: 1.35rem; }
 .card.numbered { position: relative; padding-left: 70px; }
 .card.numbered .num {
   position: absolute; left: 20px; top: 22px;
@@ -180,23 +181,23 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
 /* Listas */
 .list-strong { list-style: none; display: flex; flex-direction: column; gap: 15px; margin-top: 8px; }
 .list-strong li {
-  position: relative; padding-left: 26px;
-  color: var(--muted); line-height: 1.65; font-size: 1.15rem;
+  position: relative; padding-left: 30px;
+  color: var(--muted); line-height: 1.5; font-size: 1.28rem;
 }
 .list-strong li::before {
-  content: ""; position: absolute; left: 0; top: 11px;
-  width: 12px; height: 12px; border-radius: 50%;
+  content: ""; position: absolute; left: 0; top: 13px;
+  width: 14px; height: 14px; border-radius: 50%;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   box-shadow: 0 0 10px rgba(63,240,200,.5);
 }
 .list-strong strong { color: var(--text); }
 
-.normas { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.normas { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 .normas li {
   background: rgba(255,255,255,.045);
   border: 1px solid var(--card-border);
-  border-radius: 14px; padding: 14px 18px;
-  color: var(--muted); font-size: 1.12rem; line-height: 1.6;
+  border-radius: 14px; padding: 15px 20px;
+  color: var(--muted); font-size: 1.2rem; line-height: 1.5;
   border-left: 4px solid var(--accent);
 }
 .normas strong { color: var(--text); }
@@ -433,7 +434,7 @@ kbd {
         <h2>¿Qué es la Ley 1712 de 2014?</h2>
         <div class="grid-2">
           <div>
-            <p class="lead">Es una <strong>ley estatutaria</strong> expedida el 6 de febrero de 2014 (Diario Oficial 49.087) que desarrolla el derecho fundamental de acceso a la información pública consagrado en el artículo 74 de la Constitución Política.</p>
+            <p class="lead">Ley <strong>estatutaria</strong> del 6 de febrero de 2014 que desarrolla el derecho fundamental de acceso a la información pública del <strong>artículo 74 de la Constitución Política</strong>.</p>
             <ul class="list-strong">
               <li>Crea la <strong>Ley de Transparencia y del Derecho de Acceso a la Información Pública Nacional</strong>.</li>
               <li>Regula los procedimientos para <strong>solicitar, recibir y publicar</strong> información.</li>
@@ -460,11 +461,11 @@ kbd {
         <div class="grid-2 align-top">
           <div class="card">
             <h3>1. Ámbito de aplicación (Art. 5)</h3>
-            <p class="small">Se aplica a toda <strong>entidad pública</strong>, órganos de control, personas que prestan <strong>servicios o función pública</strong>, partidos políticos y quienes administren <strong>recursos públicos</strong>.</p>
+            <p class="small">Aplica a toda <strong>entidad pública</strong>, órganos de control y a quienes presten <strong>función pública</strong> o administren <strong>recursos públicos</strong>.</p>
             <h3>2. Deber de publicar (Arts. 9 y 10)</h3>
-            <p class="small">Obliga a publicar <strong>presupuesto, contratación, salarios, normas y planes</strong>, actualizada al menos cada mes, en formatos accesibles.</p>
+            <p class="small">Obliga a publicar <strong>presupuesto, contratación, salarios y planes</strong>, al menos una vez al mes, en formato accesible.</p>
             <h3>3. Solicitud de información (Arts. 25 y 26)</h3>
-            <p class="small">Respuesta en máximo <strong>15 días hábiles</strong>, prorrogable por <strong>10</strong>, de forma <strong>oportuna, veraz, completa y motivada</strong>.</p>
+            <p class="small">Responde en máximo <strong>15 días hábiles</strong>, prorrogable por <strong>10</strong>, de forma <strong>veraz, completa y motivada</strong>.</p>
           </div>
           <div class="card">
             <h3>Normas que la aplican y reglamentan</h3>
@@ -473,7 +474,7 @@ kbd {
               <li><strong>Decreto 103 de 2015</strong> - Reglamentación parcial de la ley.</li>
               <li><strong>Decreto 1081 de 2015</strong> - Reglamentario único del sector Presidencia.</li>
               <li><strong>Resolución MinTIC 1519 de 2020</strong> - Estándares de publicación y accesibilidad web.</li>
-              <li><strong>Resoluciones PGN 240 y 241 de 2022</strong> - Procedimiento con identificación reservada y lineamientos de la Procuraduría.</li>
+              <li><strong>Resoluciones PGN 240 y 241 de 2022</strong> - Lineamientos de la Procuraduría sobre información reservada.</li>
               <li><strong>Sentencia C-274 de 2013</strong> - Declaratoria de exequibilidad de la corte.</li>
             </ul>
           </div>
@@ -712,7 +713,7 @@ function buildOverview() {
     preview.className = "ov-preview";
     const clone = slide.querySelector(".slide-content").cloneNode(true);
     clone.classList.add("clone");
-    clone.style.width = "1200px";
+    clone.style.width = "1500px";
     preview.appendChild(clone);
     item.appendChild(preview);
 
@@ -738,7 +739,7 @@ function buildOverview() {
 function fitOverview() {
   overvGrid.querySelectorAll(".ov-item").forEach((item) => {
     const clone = item.querySelector(".clone");
-    clone.style.transform = `scale(${(item.clientWidth - 10) / 1200})`;
+    clone.style.transform = `scale(${(item.clientWidth - 10) / 1500})`;
   });
 }
 
