@@ -133,11 +133,6 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
   margin-top: 40px; color: var(--muted); font-size: 1.35rem; line-height: 2;
 }
 .cover-meta strong { color: var(--text); }
-.hint {
-  margin-top: 44px; font-size: 1.05rem; color: var(--muted-2);
-  animation: pulse 2.2s infinite;
-}
-@keyframes pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
 
 /* Grids */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -268,19 +263,6 @@ h4 { font-size: 1.15rem; margin-bottom: 8px; }
 }
 
 .counter { font-size: 1.05rem; color: var(--muted); min-width: 55px; text-align: center; font-weight: 500; }
-
-/* Medallaje institucional */
-.sena-brand {
-  display: inline-flex; align-items: center; gap: 13px;
-  margin-bottom: 30px; padding: 10px 20px; border-radius: 999px;
-  background: rgba(242, 114, 40, .12); border: 1px solid rgba(242, 114, 40, .5);
-}
-.sena-logo {
-  background: linear-gradient(135deg, #ffb521, #f27228);
-  color: #201006; font-weight: 900; font-size: 1.05rem; letter-spacing: 1px;
-  padding: 7px 15px; border-radius: 8px;
-}
-.sena-name { color: #ffd9a0; font-size: 1rem; font-weight: 600; }
 
 /* Notas del orador (ocultas en la vista normal) */
 .speaker-notes { display: none; }
@@ -439,10 +421,6 @@ kbd {
     <!-- 1. Portada -->
     <section class="slide active">
       <div class="slide-content cover">
-        <div class="sena-brand">
-          <span class="sena-logo">SENA</span>
-          <span class="sena-name">Servicio Nacional de Aprendizaje</span>
-        </div>
         <span class="badge">Ley Estatutaria - Colombia</span>
         <h1 class="title-xl">Ley 1712 de 2014</h1>
         <p class="subtitle">Ley de Transparencia y del Derecho de Acceso a la Información Pública Nacional</p>
@@ -450,7 +428,6 @@ kbd {
           <p><strong>Presentado por:</strong> Juan Sebastián Morales M - Aprendiz SENA</p>
           <p><strong>Programa:</strong> ADSO - 3390374</p>
         </div>
-        <p class="hint" id="navHint">Flechas del teclado o botones para navegar · O: vista general · H: ayuda</p>
       </div>
       <aside class="speaker-notes">
         <p>Saludo: Buen dia / buenas tardes. Me presento: Juan Sebastian Morales, aprendiz del programa ADSO, grupo 3390374.</p>
@@ -687,7 +664,6 @@ let overviewOpen = false;
 let helpOpen = false;
 
 const isMobile = () => window.matchMedia("(max-width: 768px), (max-height: 500px)").matches;
-const navHint = document.getElementById("navHint");
 
 /* Indicadores */
 slides.forEach((_, i) => {
@@ -748,15 +724,6 @@ function toggleNotes(force) {
   notesBtn.textContent = notesOpen ? "Ocultar" : "Guion";
   if (notesOpen) renderNotes();
 }
-
-function updateNavHint() {
-  if (!navHint) return;
-  navHint.textContent = isMobile()
-    ? "Desliza o usa los botones · O: vista · N: guion · H: ayuda"
-    : "Flechas del teclado o botones para navegar · O: vista · H: ayuda";
-}
-updateNavHint();
-window.addEventListener("resize", updateNavHint);
 
 function tickClock() {
   const now = new Date();
