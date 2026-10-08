@@ -259,36 +259,7 @@ h4 { font-size: 1.3rem; margin-bottom: 8px; }
 /* Notas del orador (ocultas en la vista normal) */
 .speaker-notes { display: none; }
 
-/* El guion solo está disponible en pantallas pequeñas (celular/tablet) */
-.notes-panel, #notesBtn, #helpNotesRow { display: none; }
-@media (max-width: 768px), (max-height: 500px) {
-  .notes-panel { display: block; }
-  #notesBtn { display: flex; }
-  #helpNotesRow { display: table-row; }
-}
-
-/* Panel del orador */
-.notes-panel {
-  position: fixed; right: 18px; bottom: 84px;
-  width: 440px; max-width: calc(100vw - 36px); max-height: 55vh;
-  overflow-y: auto;
-  background: rgba(8, 12, 28, .94);
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: 16px; backdrop-filter: blur(12px);
-  box-shadow: 0 16px 50px rgba(0,0,0,.55);
-  z-index: 60;
-  animation: rise .35s ease backwards;
-}
-.notes-head {
-  display: flex; align-items: center; gap: 10px;
-  justify-content: space-between; padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,.1);
-  position: sticky; top: 0; background: rgba(8, 12, 28, .95);
-}
-.notes-title { font-weight: 700; color: #fff; font-size: 1.05rem; }
-.notes-clock { color: var(--accent-2); font-weight: 700; }
-.notes-body { padding: 14px 16px; color: var(--muted); line-height: 1.65; font-size: 1.05rem; }
-.notes-body p { margin-bottom: 10px; }
+/* Cerrar ayuda / vista general */
 .notes-close {
   border: none; background: rgba(255,255,255,.12); color: #fff;
   width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
@@ -555,19 +526,8 @@ kbd {
     <button class="btn-nav" id="nextBtn" aria-label="Siguiente">&#8250;</button>
     <span class="counter" id="counter">1 / 5</span>
     <button class="btn-tool" id="overviewBtn">Vista</button>
-    <button class="btn-tool" id="notesBtn">Guion</button>
     <button class="btn-fullscreen" id="fsBtn" aria-label="Pantalla completa">Pantalla completa</button>
   </footer>
-
-  <!-- Panel del orador -->
-  <aside class="notes-panel" id="notesPanel" hidden>
-    <div class="notes-head">
-      <span class="notes-title">Guion del orador</span>
-      <span class="notes-clock" id="notesClock">00:00 · 0:00</span>
-      <button class="notes-close" id="notesClose" aria-label="Cerrar guion">×</button>
-    </div>
-    <div class="notes-body" id="notesBody"></div>
-  </aside>
 
   <!-- Vista general -->
   <div class="overlay overview" id="overview" hidden>
@@ -590,10 +550,9 @@ kbd {
         <tr><td><kbd>Flecha izquierda</kbd></td><td>Diapositiva anterior</td></tr>
         <tr><td><kbd>Inicio</kbd> / <kbd>Fin</kbd></td><td>Ir al inicio o al final</td></tr>
         <tr><td><kbd>O</kbd></td><td>Abrir vista general</td></tr>
-        <tr id="helpNotesRow"><td><kbd>N</kbd></td><td>Mostrar guion del orador (solo en celular)</td></tr>
         <tr><td><kbd>H</kbd> / <kbd>?</kbd></td><td>Abrir esta ayuda</td></tr>
         <tr><td><kbd>F</kbd></td><td>Pantalla completa</td></tr>
-        <tr><td><kbd>Esc</kbd> / <kbd>X</kbd></td><td>Cerrar vista general, ayuda o guion</td></tr>
+        <tr><td><kbd>Esc</kbd> / <kbd>X</kbd></td><td>Cerrar vista general o ayuda</td></tr>
       </table>
     </div>
   </div>
@@ -607,27 +566,17 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const fsBtn = document.getElementById("fsBtn");
 const overviewBtn = document.getElementById("overviewBtn");
-const notesBtn = document.getElementById("notesBtn");
 
 const overview = document.getElementById("overview");
 const overvGrid = document.getElementById("ovGrid");
 const overviewClose = document.getElementById("overviewClose");
 
-const notesPanel = document.getElementById("notesPanel");
-const notesBody = document.getElementById("notesBody");
-const notesClock = document.getElementById("notesClock");
-const notesClose = document.getElementById("notesClose");
-
 const help = document.getElementById("help");
 const helpClose = document.getElementById("helpClose");
 
-const startedAt = Date.now();
 let current = 0;
-let notesOpen = false;
 let overviewOpen = false;
 let helpOpen = false;
-
-const isMobile = () => window.matchMedia("(max-width: 768px), (max-height: 500px)").matches;
 
 /* Indicadores */
 slides.forEach((_, i) => {
@@ -639,7 +588,7 @@ slides.forEach((_, i) => {
 });
 const dots = Array.from(document.querySelectorAll(".dot"));
 
-function goTo(index, options = {}) {
+function goTo(index) {
   if (index < 0 || index >= slides.length || index === current) return;
   slides[current].classList.remove("active");
   current = index;
@@ -649,11 +598,6 @@ function goTo(index, options = {}) {
   });
   slides[current].classList.add("active");
   updateUI();
-  if (!options.silent) {
-    notesPanel.hidden = true;
-    notesOpen = false;
-    notesBtn.textContent = "Guion";
-  }
 }
 
 function updateUI() {
@@ -663,43 +607,8 @@ function updateUI() {
   prevBtn.disabled = current === 0;
   nextBtn.disabled = current === slides.length - 1;
   dots.forEach((d, i) => d.classList.toggle("active", i === current));
-  renderNotes();
   if (overviewOpen) markOverviewActive();
 }
-
-/* Notas del orador + reloj */
-function renderNotes() {
-  const note = slides[current].querySelector(".speaker-notes");
-  notesBody.innerHTML = "";
-  if (!note) {
-    notesBody.textContent = "Sin guion para esta diapositiva.";
-    return;
-  }
-  note.querySelectorAll("p").forEach((p) => {
-    const copy = p.cloneNode(true);
-    notesBody.appendChild(copy);
-  });
-}
-
-function toggleNotes(force) {
-  if (!isMobile()) return;
-  notesOpen = typeof force === "boolean" ? force : !notesOpen;
-  notesPanel.hidden = !notesOpen;
-  notesBtn.textContent = notesOpen ? "Ocultar" : "Guion";
-  if (notesOpen) renderNotes();
-}
-
-function tickClock() {
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2, "0");
-  const mm = String(now.getMinutes()).padStart(2, "0");
-  const elapsed = Math.floor((Date.now() - startedAt) / 1000);
-  const em = String(Math.floor(elapsed / 60));
-  const es = String(elapsed % 60).padStart(2, "0");
-  notesClock.textContent = `${hh}:${mm} · ${em}:${es}`;
-}
-tickClock();
-setInterval(tickClock, 1000);
 
 /* Vista general */
 function buildOverview() {
@@ -778,10 +687,8 @@ function toggleHelp(force) {
 prevBtn.addEventListener("click", () => goTo(current - 1));
 nextBtn.addEventListener("click", () => goTo(current + 1));
 overviewBtn.addEventListener("click", () => toggleOverview());
-notesBtn.addEventListener("click", () => toggleNotes());
 fsBtn.addEventListener("click", toggleFullscreen);
 overviewClose.addEventListener("click", () => toggleOverview(false));
-notesClose.addEventListener("click", () => toggleNotes(false));
 helpClose.addEventListener("click", () => toggleHelp(false));
 
 function toggleFullscreen() {
@@ -801,11 +708,9 @@ document.addEventListener("keydown", (e) => {
   if (k === "Escape" || k === "x" || k === "X") {
     if (overviewOpen) return toggleOverview(false);
     if (helpOpen) return toggleHelp(false);
-    if (notesOpen) return toggleNotes(false);
   }
   if (helpOpen) return;
   if (k === "o" || k === "O") return toggleOverview();
-  if (k === "n" || k === "N") return toggleNotes();
   if (k === "h" || k === "H" || k === "?") return toggleHelp();
   if (k === "f" || k === "F") return toggleFullscreen();
 
